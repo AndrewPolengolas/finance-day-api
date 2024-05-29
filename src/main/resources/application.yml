@@ -22,6 +22,10 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
 
+api:
+  security:
+    token:
+      secret=${JWT_SECRET:12345678}:
 
 # Configurações do logging
 logging:
