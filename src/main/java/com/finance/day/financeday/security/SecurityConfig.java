@@ -20,6 +20,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(req -> {
+                    req.requestMatchers("/login").permitAll();
+                    req.requestMatchers("/signin").permitAll();
+                    req.anyRequest().authenticated();
+                })
                 .build();
     }
 

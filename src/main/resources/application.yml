@@ -25,7 +25,7 @@ spring:
 api:
   security:
     token:
-      secret=${JWT_SECRET:12345678}:
+      secret: ${JWT_SECRET:12345678}
 
 # Configurações do logging
 logging:
