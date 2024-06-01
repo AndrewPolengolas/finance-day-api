@@ -1,8 +1,8 @@
-package com.finance.day.financeday.controller;
+package com.finance.day.financeday.controller.authentication;
 
 import com.finance.day.financeday.entities.User;
-import com.finance.day.financeday.records.SigninRecord;
-import com.finance.day.financeday.repositories.UserRepository;
+import com.finance.day.financeday.records.auth.SigninRecord;
+import com.finance.day.financeday.repositories.users.UserRepository;
 import com.finance.day.financeday.security.SecurityConfig;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

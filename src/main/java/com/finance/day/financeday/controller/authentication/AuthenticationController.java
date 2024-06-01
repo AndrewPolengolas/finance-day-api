@@ -1,7 +1,7 @@
-package com.finance.day.financeday.controller;
+package com.finance.day.financeday.controller.authentication;
 
 import com.finance.day.financeday.entities.User;
-import com.finance.day.financeday.records.AuthRecord;
+import com.finance.day.financeday.records.auth.AuthRecord;
 import com.finance.day.financeday.security.DadosTokenJWT;
 import com.finance.day.financeday.security.TokenService;
 import lombok.AllArgsConstructor;

@@ -1,6 +1,6 @@
 package com.finance.day.financeday.security;
 
-import com.finance.day.financeday.repositories.UserRepository;
+import com.finance.day.financeday.repositories.users.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

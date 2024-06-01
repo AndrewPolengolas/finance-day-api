@@ -26,15 +26,9 @@ public class Card {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, unique = true)
-    private String number;
-
-    @Column(nullable = false)
-    private Date expirationDate;
-
-    @Column(nullable = false)
-    private String cvv;
-
     @OneToMany(mappedBy = "card")
     private List<PaymentMethod> paymentMethods;
+
+    @Column(length = 6)
+    private String color;
 }

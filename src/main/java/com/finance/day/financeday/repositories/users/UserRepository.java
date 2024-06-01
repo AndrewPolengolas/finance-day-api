@@ -1,4 +1,4 @@
-package com.finance.day.financeday.repositories;
+package com.finance.day.financeday.repositories.users;
 
 import com.finance.day.financeday.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
