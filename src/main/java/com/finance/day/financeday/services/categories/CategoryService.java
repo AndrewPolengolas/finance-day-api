@@ -11,8 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -51,7 +52,7 @@ public class CategoryService {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    public ResponseEntity<?> editCategory(CategoryRecord categoryRecord) {
+    public ResponseEntity<?> editCategory(Long id, CategoryRecord categoryRecord) {
 
         UserDetails userDetails = userUtils.getUser();
 
@@ -60,39 +61,51 @@ public class CategoryService {
 
         User user = (User) userRepository.findByUsername(userDetails.getUsername());
 
-        Optional<Category> categoryOptional = categoryRepository.findById(categoryRecord.id());
-
-        if (categoryOptional.isPresent()){
-            Category category = categoryOptional.get();
-
-            if (category.getUser() != user)
-                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-
-            category.setName(categoryRecord.name() != null ? categoryRecord.name() : category.getName());
-            category.setDescription(categoryRecord.description());
-
-            categoryRepository.save(category);
-
-            return new ResponseEntity<>(category, HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    public ResponseEntity<?> deleteCategory(CategoryRecord categoryRecord){
-
-        UserDetails userDetails = userUtils.getUser();
-
-        if (userDetails == null)
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-
-        User user = (User) userRepository.findByUsername(userDetails.getUsername());
-
-        Category category = categoryRepository.getReferenceById(categoryRecord.id());
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found"));
 
         if (category.getUser() != user)
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
+        category.setName(categoryRecord.name() != null ? categoryRecord.name() : category.getName());
+        category.setDescription(categoryRecord.description());
 
+        categoryRepository.save(category);
+
+        return new ResponseEntity<>(category, HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> deleteCategory(Long id) {
+
+        UserDetails userDetails = userUtils.getUser();
+
+        if (userDetails == null)
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+        User user = (User) userRepository.findByUsername(userDetails.getUsername());
+
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found"));
+
+        if (category.getUser() != user)
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+        categoryRepository.delete(category);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    public ResponseEntity<?> listAllCategories(){
+
+        UserDetails userDetails = userUtils.getUser();
+
+        if (userDetails == null)
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+        User user = (User) userRepository.findByUsername(userDetails.getUsername());
+
+        List<Category> categories = categoryRepository.findByUser(user);
+
+        return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 }

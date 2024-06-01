@@ -18,8 +18,18 @@ public class CategoryController {
             return categoryService.createCategory(categoryRecord);
     }
 
-    @PutMapping("/create")
-    public ResponseEntity<?> editCategory(@RequestBody CategoryRecord categoryRecord){
-        return categoryService.editCategory(categoryRecord);
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<?> editCategory(@PathVariable("id") Long id, @RequestBody CategoryRecord categoryRecord){
+        return categoryService.editCategory(id, categoryRecord);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteCategory(@PathVariable("id") Long id){
+        return categoryService.deleteCategory(id);
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<?> listAllCategories(){
+        return categoryService.listAllCategories();
     }
 }
