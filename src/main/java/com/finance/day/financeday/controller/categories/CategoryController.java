@@ -2,6 +2,7 @@ package com.finance.day.financeday.controller.categories;
 
 import com.finance.day.financeday.records.categories.CategoryRecord;
 import com.finance.day.financeday.services.categories.CategoryService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,7 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createCategory(@RequestBody CategoryRecord categoryRecord){
+    public ResponseEntity<?> createCategory(@RequestBody @Valid CategoryRecord categoryRecord){
             return categoryService.createCategory(categoryRecord);
     }
 

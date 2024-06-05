@@ -30,26 +30,23 @@ public class CategoryService {
         if (userDetails == null)
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
-        if (categoryRecord.name() == null)
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
         User user = (User) userRepository.findByUsername(userDetails.getUsername());
 
         Category category = categoryRepository.findByNameAndUser(categoryRecord.name(), user);
 
-        if (category == null) {
-            category = Category.builder()
-                    .name(categoryRecord.name())
-                    .description(categoryRecord.description())
-                    .user(user)
-                    .build();
+        if (category != null)
+            return new ResponseEntity<>(HttpStatus.OK);
 
-            categoryRepository.save(category);
 
-            return new ResponseEntity<>(category, HttpStatus.CREATED);
-        }
+        category = Category.builder()
+                .name(categoryRecord.name())
+                .description(categoryRecord.description())
+                .user(user)
+                .build();
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        categoryRepository.save(category);
+
+        return new ResponseEntity<>(category, HttpStatus.CREATED);
     }
 
     public ResponseEntity<?> editCategory(Long id, CategoryRecord categoryRecord) {
@@ -95,7 +92,7 @@ public class CategoryService {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    public ResponseEntity<?> listAllCategories(){
+    public ResponseEntity<?> listAllCategories() {
 
         UserDetails userDetails = userUtils.getUser();
 

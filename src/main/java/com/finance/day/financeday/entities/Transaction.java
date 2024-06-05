@@ -28,8 +28,8 @@ public class Transaction {
     private Category category;
 
     @ManyToOne
-    @JoinColumn(name = "card_id", nullable = false)
-    private Card card;
+    @JoinColumn(name = "account_id", nullable = false)
+    private Account account;
 
     @Column(nullable = false)
     private BigDecimal amount;
