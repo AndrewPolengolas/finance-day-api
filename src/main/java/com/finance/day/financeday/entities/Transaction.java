@@ -28,8 +28,12 @@ public class Transaction {
     private Category category;
 
     @ManyToOne
-    @JoinColumn(name = "account_id", nullable = false)
+    @JoinColumn(name = "account_id")
     private Account account;
+
+    @ManyToOne
+    @JoinColumn(name = "payment_method_id")
+    private PaymentMethod paymentMethod;
 
     @Column(nullable = false)
     private BigDecimal amount;
@@ -38,6 +42,7 @@ public class Transaction {
     @Column(nullable = false)
     private Date transactionDate;
 
+    @Column(nullable = false)
     private String description;
 
 }
